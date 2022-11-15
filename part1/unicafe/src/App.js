@@ -13,20 +13,39 @@ const App = () => {
 
   return (
     <div>
-      <h1>give feedback</h1>
+      <h2>give feedback</h2>
       <Button onClick={incGood} text='good'/>
       <Button onClick={incNeutral} text='neutral'/>
       <Button onClick={incBad} text='bad'/>
       <h2>statistics</h2>
-      <Display counter={good} />
-      <Display counter={neutral} />
-      <Display counter={bad} />
-      <Display counter={bad+good+neutral} />
-      <Display counter={(good-bad)/(bad+good+neutral)} />
-      <Displayp counter={(good)/(bad+good+neutral)} />
+      <Statistics good={good} bad={bad} neutral={neutral}/>
     </div>
   )
 }
+
+//statistics component, if no feedback display message
+const Statistics = ({good, bad, neutral}) => {
+  if (good+bad+neutral === 0) {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
+  return (
+    <table>
+      <tbody>
+        <StatisticsLine text='good' value={good} />
+        <StatisticsLine text='neutral' value={neutral} />
+        <StatisticsLine text='bad' value={bad} />
+        <StatisticsLine text='all' value={bad+good+neutral} />
+        <StatisticsLine text='average' value={((good-bad)/(bad+good+neutral)).toFixed(2)} />
+        <StatisticsLine text='positive' value={((good*100)/(bad+good+neutral)).toFixed(1)+' %'} />
+      </tbody>
+    </table>
+  )
+}
+
 
 //button component
 const Button = ({onClick, text}) => {
@@ -37,17 +56,15 @@ const Button = ({onClick, text}) => {
   )
 }
 
-//display component
-const Display = ({counter}) => {
+//display single statistic component
+const StatisticsLine = ({text, value}) => {
   return (
-    <div>{counter}</div>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
 }
-//display percentage component
-const Displayp = ({counter}) => {
-  return (
-    <div>{counter*100}%</div>
-  )
-}
+
 
 export default App
