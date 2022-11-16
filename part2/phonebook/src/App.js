@@ -24,7 +24,7 @@ const App = () => {
     setFilter(event.target.value)
   }
 
-  //event handler for onSubmit
+  //event handler for submitting add new person form
   const addPerson = (event) => {
     event.preventDefault()
     if (nameTaken(persons, newName)) {
@@ -43,30 +43,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter by name <input
-        value={filter}
-        onChange={handleFilterChange}
-        />
-      </div>
+      <Filter handleFilterChange={handleFilterChange} filter={filter} />
       <h2>Add new contact</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input 
-          value={newNumber}
-          onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm 
+        addPerson={addPerson}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
       <ul>
         {persons.map(person =>
@@ -76,6 +60,43 @@ const App = () => {
     </div>
   )
 }
+
+//component to display the form for adding new contacts
+const PersonForm = (props) => {
+  return (
+    <form onSubmit={props.addPerson}>
+        <div>
+          name: <input 
+          value={props.newName}
+          onChange={props.handleNameChange}
+          />
+        </div>
+        <div>
+          number: <input 
+          value={props.newNumber}
+          onChange={props.handleNumberChange}
+          />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+  )
+}
+
+//component to create filter field
+const Filter = (props) => {
+  return (
+    <div>
+      filter by name <input
+      value={props.filter}
+      onChange={props.handleFilterChange}
+      />
+    </div>
+  )
+}
+
+
 
 //component to display a person, applying name filter
 const Person = ({person, filter}) => {
