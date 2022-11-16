@@ -48,7 +48,7 @@ const Button = ({onClick, text}) => {
   )
 }
 
-//max votes component
+//display anecdote with most votes and vote number component
 const MaxVotes = ({votes, anecdotes}) => {
   const max = Math.max(...votes)
   const index = votes.indexOf(max)
