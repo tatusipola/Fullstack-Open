@@ -4,6 +4,7 @@ import axios from 'axios'
 const App = () => {
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
+  
 
   //read data from server
   const hook = () => {
@@ -15,6 +16,7 @@ const App = () => {
   }
   useEffect(hook, [])
 
+
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
   }
@@ -22,7 +24,7 @@ const App = () => {
   return (
     <div>
       <Filter handleFilterChange={handleFilterChange} filter={filter} />
-      <Countries countries={countries} filter={filter}/>
+      <Countries countries={countries} filter={filter} setFilter={setFilter}/>
     </div>
   )
 }
@@ -40,7 +42,7 @@ const Filter = (props) => {
 }
 
 //component to filter and display countries
-const Countries = ({countries, filter}) => {
+const Countries = ({countries, filter, setFilter}) => {
   const filtered = countries.filter(country =>
     country.name.common.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
 
@@ -52,7 +54,7 @@ const Countries = ({countries, filter}) => {
     return (
       <ul>
         {filtered.map(country =>
-          <Country key={country.name.common} country={country} />)}
+          <Country key={country.name.common} country={country} setFilter={setFilter}/>)}
       </ul>
     )
   } else {
@@ -61,8 +63,46 @@ const Countries = ({countries, filter}) => {
   
 }
 
-//component to display many countries
-const Country = ({country}) => <li>{country.name.common}</li>
+//component to display many countries + button next to names
+const Country = ({country, setFilter}) => {
+  return (
+    <li>
+      {country.name.common} 
+      <button onClick={() => setFilter(country.name.common)}>
+        show
+      </button>
+    </li>
+  )
+}
+
+//fetching and displaying weather data for country capital
+const Weather = ({country}) => {
+  const [weather, setWeather] = useState({})
+  const latlng = country.capitalInfo.latlng
+  const api_key = process.env.REACT_APP_API_KEY
+  useEffect(() => {
+    axios
+    .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latlng[0]}&lon=${latlng[1]}&appid=${api_key}`)
+    .then(response => {
+      setWeather(response.data)
+      })
+  }, [latlng, api_key])
+
+  
+  if (Object.entries(weather).length !== 0) {
+    return (
+      <div>
+        <h2>Weather in {country.capital}</h2>
+        <p>
+          Temperature is {(weather.main.temp-273.15).toFixed(1)} °C <br></br>
+          Wind speed is {weather.wind.speed} km/h <br></br>
+          <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`} alt="weather icon"/>
+        </p>
+      </div>
+    )
+  }
+  
+}
 
 //component to display more data from single country
 const SingleCountry = ({country}) => {
@@ -82,6 +122,7 @@ const SingleCountry = ({country}) => {
         )}
       </ul>
       <img src={country.flags.png} alt="flag of the country"/>
+      <Weather country={country} />
     </div>
   )
 
