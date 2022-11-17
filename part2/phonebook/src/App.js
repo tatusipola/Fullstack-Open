@@ -6,6 +6,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState({status: null, message: null})
 
   //read data from server and set initial persons state
   useEffect(() => {
@@ -41,10 +42,18 @@ const App = () => {
         const pers = persons.filter(person => person.name === newName)
         personService
           .update(pers[0].id, nameObject)
-          .then(newpers =>
-            setPersons(persons.map(person => person.id !== pers[0].id ? person : newpers)))
+          .then(newpers => {
+            setPersons(persons.map(person => person.id !== pers[0].id ? person : newpers))
+            setMessage({status: 'nonerror', message: `${newName} number updated`})
+            setTimeout(() => {setMessage({status:null, message:null})}, 5000)
             setNewName('')
             setNewNumber('')
+          })
+          .catch(error => {
+            setMessage({status: 'error', message: `${newName} has been removed from server`})
+            setTimeout(() => {setMessage({status:null, message:null})}, 5000)
+            setPersons(persons.filter(p => p.id !== pers[0].id))
+          })
       }
       
     } else {
@@ -52,6 +61,8 @@ const App = () => {
         .create(nameObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setMessage({status: 'nonerror', message: `${newName} added`})
+          setTimeout(() => {setMessage({status:null, message:null})}, 5000)
           setNewName('')
           setNewNumber('')
         })    
@@ -71,6 +82,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message.message} status={message.status} />
       <Filter handleFilterChange={handleFilterChange} filter={filter} />
       <h2>Add new contact</h2>
       <PersonForm 
@@ -150,6 +162,29 @@ const nameTaken = (persons, newName) => {
   return (
     names.includes(newName)
   )
+}
+
+
+//display messages
+const Notification = ({ message, status }) => {
+  if (message === null) {
+    return null
+  }
+
+  if (status === 'nonerror') {
+    return (
+      <div className="nonerror">
+        {message}
+      </div>
+    )
+  } else {
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+  
 }
 
 
