@@ -2,9 +2,9 @@ POST http://localhost:3003/api/bloglist
 Content-Type: application/json
 
 {
-    "title": "jkd",
+    "title": "asgdxfgdftrxgdftrgxdrg",
     "author": "sajljk",
     "url": "djilijlijl",
-    "likes": 4666
+    "likes": 44354353666
 }
 
