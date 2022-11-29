@@ -25,11 +25,12 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-    const authors = blogs.map(blog => blog.author)
-
     if (blogs.length === 0) {
         return 0
     }
+
+    const authors = blogs.map(blog => blog.author)
+
 
     //count number of blogs by each author
     let counter = {}
@@ -51,10 +52,36 @@ const mostBlogs = (blogs) => {
     }
 }
 
+const mostLikes = (blogs) => {
+    if (blogs.length === 0) {
+        return 0
+    }
+
+    //count number of likes for each author
+    let counter = {}
+    for (const blog of blogs) {
+        if (counter[blog.author]) {
+            counter[blog.author] += blog.likes
+        } else {
+            counter[blog.author] = blog.likes
+        }
+    } 
+
+    const max = Math.max.apply(null, Object.values(counter))
+    for (key in counter) {
+        if (counter[key] === max) {
+            return {
+                [key]: max
+            }
+        }
+    }
+}
+
 
 module.exports = {
 dummy,
 totalLikes,
 favoriteBlog,
-mostBlogs
+mostBlogs, 
+mostLikes
 }
