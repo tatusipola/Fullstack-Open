@@ -8,6 +8,10 @@ bloglistRouter.get('/', async (request, response) => {
 
 bloglistRouter.post('/', async (request, response) => {
   const body = request.body
+  if (!Object.hasOwn(body, 'title') || !Object.hasOwn(body, 'url')) {
+    response.status(400).end()
+  }
+
   const blog = new Blog({
     title: body.title,
     author: body.author,

@@ -94,7 +94,31 @@ test('adding blog with missing likes defaults to 0', async () => {
     expect(response.body).toHaveLength(initialBlogs.length + 1)
     console.log(likes)
     expect(likes[likes.length-1]).toBe(0)
-  })
+})
+
+test('adding blog with missing title or url returns status 400', async () => {
+    let newBlog = {
+      author: 'AKAFSDJ',
+      url: 'ASDKLDSKSDA.com',
+      likes: 13
+    }
+  
+    await api
+      .post('/api/bloglist')
+      .send(newBlog)
+      .expect(400)
+
+    newBlog = {
+      title: 'asdasdasd',
+      author: 'AKAFSDJ',
+      likes: 13
+    }
+  
+    await api
+      .post('/api/bloglist')
+      .send(newBlog)
+      .expect(400)
+})
 
 
 afterAll(() => {
