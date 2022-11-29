@@ -44,6 +44,59 @@ test('all blogs are returned', async () => {
     expect(response.body).toHaveLength(initialBlogs.length)
 })
 
+test('identifier property is named id', async () => {
+    const response = await api.get('/api/bloglist')
+
+    expect(response.body[0].id).toBeDefined
+})
+
+test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: 'test blog',
+      author: 'AKAFSDJ',
+      url: 'ASDKLDSKSDA.com',
+      likes: 16
+    }
+  
+    await api
+      .post('/api/bloglist')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/bloglist')
+  
+    const title = response.body.map(r => r.title)
+  
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(title).toContain(
+      'test blog'
+    )
+  })
+
+test('adding blog with missing likes defaults to 0', async () => {
+    const newBlog = {
+      title: 'test blog likes missing',
+      author: 'AKAFSDJ',
+      url: 'ASDKLDSKSDA.com'
+    }
+  
+    await api
+      .post('/api/bloglist')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/bloglist')
+  
+    const likes = response.body.map(r => r.likes)
+  
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    console.log(likes)
+    expect(likes[likes.length-1]).toBe(0)
+  })
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
