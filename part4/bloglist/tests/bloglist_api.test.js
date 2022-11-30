@@ -107,17 +107,19 @@ test('adding blog with missing title or url returns status 400', async () => {
       .post('/api/bloglist')
       .send(newBlog)
       .expect(400)
+})
 
-    newBlog = {
-      title: 'asdasdasd',
-      author: 'AKAFSDJ',
-      likes: 13
-    }
-  
+test('deleting a blog works', async () => {
+    const blogToDelete = initialBlogs[0]
     await api
-      .post('/api/bloglist')
-      .send(newBlog)
-      .expect(400)
+      .delete(`/api/bloglist/${blogToDelete._id}`)
+      .expect(204)
+
+    const response = await api.get('/api/bloglist')
+    expect(response.body).toHaveLength(initialBlogs.length - 1)
+
+    const titles = response.body.map(r => r.title)
+    expect(titles).not.toContain(blogToDelete.title)
 })
 
 
