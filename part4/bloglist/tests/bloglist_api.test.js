@@ -122,6 +122,15 @@ test('deleting a blog works', async () => {
     expect(titles).not.toContain(blogToDelete.title)
 })
 
+test('updating a blog works', async () => {
+    let blogToUpdate = initialBlogs[0]
+    blogToUpdate.likes = 16
+
+    const response = await api.put(`/api/bloglist/${blogToUpdate._id}`).send(blogToUpdate)
+
+    expect(response.body.likes).toBe(blogToUpdate.likes)
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
