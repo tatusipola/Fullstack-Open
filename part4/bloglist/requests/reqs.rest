@@ -2,10 +2,10 @@ POST http://localhost:3003/api/bloglist
 Content-Type: application/json
 
 {
-    "title": "asgdxfgdftrxgdftrgxdrg",
+    "title": "te<DAGFDAGG>",
     "author": "sajljk",
     "url": "djilijlijl",
-    "likes": 44354353666
+    "likes": 1
 }
 
 ###
@@ -24,8 +24,8 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "tatus",
+    "username": "",
     "name": "Tatu Sipola",
-    "password": "password"
+    "password": "asd"
 }
 
