@@ -3,14 +3,15 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRva2VudGVzdCIsImlkIjoiNjM5NzMzYzIyYzFiZmRkZDkzN2E2NDRmIiwiaWF0IjoxNjcwODUzNjYyfQ.AzW8EIUKfHLYUAJK2FHMuERQb2_VrRzFR8U5VNBv_qw
 
 {
-    "title": "token test",
+    "title": "token test2",
     "author": "sajljk",
     "url": "dasdlijl",
     "likes": 1412
 }
 
 ###
-DELETE http://localhost:3003/api/bloglist/637fa1bee96c9636a9916ed5
+DELETE http://localhost:3003/api/bloglist/6397649ca795aaeef831ad20
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzZCIsImlkIjoiNjM4OGE3ZDI5MGY5OGY0OTNhZTc0OGY3IiwiaWF0IjoxNjcwODY4MDg3fQ.kOJHLXPReNC5klbG2gf1wnP-lAOAD-ofDUvjvpSkDNA
 
 ###
 PUT http://localhost:3003/api/bloglist/637f9b85c59475e6dafa25ef
@@ -35,7 +36,7 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username": "Tokentest",
-    "password": "test"
+    "username": "asd",
+    "password": "asd"
 }
 
