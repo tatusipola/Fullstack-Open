@@ -1,11 +1,12 @@
 POST http://localhost:3003/api/bloglist 
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRva2VudGVzdCIsImlkIjoiNjM5NzMzYzIyYzFiZmRkZDkzN2E2NDRmIiwiaWF0IjoxNjcwODUzNjYyfQ.AzW8EIUKfHLYUAJK2FHMuERQb2_VrRzFR8U5VNBv_qw
 
 {
-    "title": "ERJHBHtnrnftgNRB>",
+    "title": "token test",
     "author": "sajljk",
-    "url": "djilijlijl",
-    "likes": 1
+    "url": "dasdlijl",
+    "likes": 1412
 }
 
 ###
