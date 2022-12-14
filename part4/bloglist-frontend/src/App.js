@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +12,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
+  const [message, setMessage] = useState(null)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -28,6 +30,10 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       console.log('bad creds')
+      setMessage('bad credentials')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -51,6 +57,10 @@ const App = () => {
       setNewAuthor('')
       setNewUrl('')
       setBlogs(blogs.concat(returnedBlog))
+      setMessage(`${returnedBlog.title} added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     } catch(exception) {
       console.log('vituiks')
     }
@@ -93,6 +103,8 @@ const App = () => {
   }
 
   const loginForm = () => (
+    <>
+    <Notification message={message} />
     <form onSubmit={handleLogin}>
       <div>
         username
@@ -113,7 +125,8 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>  
+    </>    
   )
 
   useEffect(() => {
@@ -137,6 +150,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} />
       <p>
         {user.username} is logged in 
         <button onClick={handleLogout}>logout</button>
