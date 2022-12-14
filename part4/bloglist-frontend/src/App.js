@@ -8,6 +8,9 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -33,6 +36,60 @@ const App = () => {
     setUser(null)
     setUsername('')
     setPassword('')
+  }
+
+  const handleAddBlog = async (event) => {
+    event.preventDefault()
+    let newBlog = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+    }
+    try {
+      const returnedBlog = await blogService.create(newBlog)
+      setNewTitle('')
+      setNewAuthor('')
+      setNewUrl('')
+      setBlogs(blogs.concat(returnedBlog))
+    } catch(exception) {
+      console.log('vituiks')
+    }
+
+  }
+
+  const AddBlogForm = () => {
+    return (
+      <form onSubmit={handleAddBlog}>
+        <div>
+          title:
+            <input
+            type="text"
+            value={newTitle}
+            name="Title"
+            onChange={({ target }) => setNewTitle(target.value)}
+          />
+        </div>
+        <div>
+          author:
+            <input
+            type="text"
+            value={newAuthor}
+            name="Author"
+            onChange={({ target }) => setNewAuthor(target.value)}
+          />
+        </div>
+        <div>
+          url:
+            <input
+            type="text"
+            value={newUrl}
+            name="Url"
+            onChange={({ target }) => setNewUrl(target.value)}
+          />
+        </div>
+        <button type="submit">create</button>
+      </form> 
+    )
   }
 
   const loginForm = () => (
@@ -77,12 +134,15 @@ const App = () => {
   if (user === null) {
     return loginForm()
   }
+
   return (
     <div>
       <p>
         {user.username} is logged in 
-        <button onClick={() => handleLogout()}>logout</button>
+        <button onClick={handleLogout}>logout</button>
       </p>
+      <h3>Add new blog</h3>
+      {AddBlogForm()}
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
