@@ -63,6 +63,15 @@ const App = () => {
     }, 5000)
   }
 
+  const deleteBlog = async (blogObject) => {
+    await blogService.deleteBlog(blogObject)
+    setBlogs(blogs.filter(blog => blog !== blogObject))
+    setMessage(`${blogObject.title} deleted`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+
   const loginForm = () => (
     <>
     <Notification message={message} />
@@ -122,7 +131,7 @@ const App = () => {
       </Togglable>
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} />
+        <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} deleteBlog={deleteBlog} user={user}/>
       )}
     </div>
   )
