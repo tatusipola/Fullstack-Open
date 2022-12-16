@@ -20,16 +20,15 @@ const Blog = ({ blog, handleAddLike, deleteBlog, user }) => {
     return null
   }
 
- 
 
   if (showDetails) {
     return (
       <div style={blogStyle}>
         <div>
-          {blog.title} {blog.author} 
+          {blog.title} {blog.author}
           <button onClick={() => setShowDetails(false)}>hide details</button><br></br>
           {blog.url} <br></br>
-          likes: {blog.likes} 
+          likes: {blog.likes}
           <button onClick={() => handleAddLike(blog)}>like</button><br></br>
           {blog.user ? blog.user.name : ''} <br></br>
           {deleteButton(blog)}
@@ -39,13 +38,13 @@ const Blog = ({ blog, handleAddLike, deleteBlog, user }) => {
   }
 
   return (
-      <div style={blogStyle}>
-        <div>
-          {blog.title} {blog.author} 
-          <button onClick={() => setShowDetails(true)}>show details</button><br></br>
-        </div>
+    <div style={blogStyle}>
+      <div>
+        {blog.title} {blog.author}
+        <button onClick={() => setShowDetails(true)}>show details</button><br></br>
       </div>
-    )
+    </div>
+  )
 
 
 }

@@ -8,8 +8,8 @@ import AddBlogForm from './components/AddBlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   const [message, setMessage] = useState(null)
@@ -18,14 +18,14 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
       })
       window.localStorage.setItem(
         'loggedBloglistUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -74,35 +74,35 @@ const App = () => {
 
   const loginForm = () => (
     <>
-    <Notification message={message} />
-    <form onSubmit={handleLogin}>
-      <div>
-        username
+      <Notification message={message} />
+      <form onSubmit={handleLogin}>
+        <div>
+          username
           <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
           <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>  
-    </>    
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </>
   )
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -122,7 +122,7 @@ const App = () => {
     <div>
       <Notification message={message} />
       <p>
-        {user.username} is logged in 
+        {user.username} is logged in
         <button onClick={handleLogout}>logout</button>
       </p>
       <h3>Add new blog</h3>
