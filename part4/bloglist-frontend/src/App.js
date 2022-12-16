@@ -46,6 +46,12 @@ const App = () => {
     setPassword('')
   }
 
+  const handleAddLike = (blog) => {
+    blog.likes += 1
+    const updatedBlog = blogService.addLike(blog)
+    setBlogs(blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog)))
+  }
+
   const addBlog = async (blogObject) => {
     const returnedBlog = await blogService.create(blogObject)
     blogFormRef.current.toggleVisibility()
@@ -55,10 +61,6 @@ const App = () => {
       setMessage(null)
     }, 5000)
   }
-
-  
-
-
 
   const loginForm = () => (
     <>
@@ -119,7 +121,7 @@ const App = () => {
       </Togglable>
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleAddLike={handleAddLike} />
       )}
     </div>
   )
