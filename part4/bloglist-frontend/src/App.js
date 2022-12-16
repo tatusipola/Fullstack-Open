@@ -47,15 +47,16 @@ const App = () => {
   }
 
   const handleAddLike = (blog) => {
+    //mutating argument probably not the best way
     blog.likes += 1
     const updatedBlog = blogService.addLike(blog)
-    setBlogs(blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog)))
+    setBlogs(blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog)).sort((a,b) => b.likes - a.likes))
   }
 
   const addBlog = async (blogObject) => {
     const returnedBlog = await blogService.create(blogObject)
     blogFormRef.current.toggleVisibility()
-    setBlogs(blogs.concat(returnedBlog))
+    setBlogs(blogs.concat(returnedBlog).sort((a,b) => b.likes - a.likes))
     setMessage(`${returnedBlog.title} added`)
     setTimeout(() => {
       setMessage(null)
@@ -91,7 +92,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
     )  
   }, [])
 
